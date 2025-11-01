@@ -83,7 +83,7 @@ extension.
 
 ## Bring your own LLM
 
-Concordia requires a access to an LLM API. Any LLM API that supports sampling
+Concordia requires access to an LLM API. Any LLM API that supports sampling
 text should work. The quality of the results you get depends on which LLM you
 select. Some are better at role-playing than others. You must also provide a
 text embedder for the associative memory. Any fixed-dimensional embedding works
