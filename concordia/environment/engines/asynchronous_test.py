@@ -32,6 +32,8 @@ class MockEntity(entity_agent_with_logging.EntityAgentWithLogging):
 
   def __init__(self, name: str) -> None:
     self._name = name
+    self.act_calls = 0
+    self.observe_calls = 0
 
   @functools.cached_property
   @override
@@ -41,7 +43,8 @@ class MockEntity(entity_agent_with_logging.EntityAgentWithLogging):
 
   @override
   def observe(self, observation: str) -> None:
-    pass
+    del observation
+    self.observe_calls += 1
 
   @override
   def act(
@@ -49,6 +52,7 @@ class MockEntity(entity_agent_with_logging.EntityAgentWithLogging):
       action_spec: entity_lib.ActionSpec = entity_lib.DEFAULT_ACTION_SPEC,
   ) -> str:
     """Always return the first entity name."""
+    self.act_calls += 1
     if action_spec.output_type in entity_lib.FREE_ACTION_TYPES:
       return _ENTITY_NAMES[0]
     elif action_spec.output_type in entity_lib.CHOICE_ACTION_TYPES:
@@ -71,6 +75,11 @@ class AsynchronousTest(absltest.TestCase):
         entities=entities,
         max_steps=2,
     )
+
+    self.assertEqual(2, entities[0].act_calls)
+    self.assertEqual(0, entities[1].act_calls)
+    for entity in entities:
+      self.assertGreaterEqual(entity.observe_calls, 1)
 
 
 if __name__ == '__main__':
