@@ -47,7 +47,7 @@ _PRINT_COLOR = 'cyan'
 
 
 class Asynchronous(engine_lib.Engine):
-  """Synchronous engine."""
+  """Asynchronous engine."""
 
   def __init__(
       self,
@@ -58,7 +58,7 @@ class Asynchronous(engine_lib.Engine):
       call_to_check_termination: str = DEFAULT_CALL_TO_CHECK_TERMINATION,
       call_to_next_game_master: str = DEFAULT_CALL_TO_NEXT_GAME_MASTER,
   ):
-    """Synchronous engine constructor."""
+    """Asynchronous engine constructor."""
     self._call_to_make_observation = call_to_make_observation
     self._call_to_next_acting = call_to_next_acting
     self._call_to_next_action_spec = call_to_next_action_spec
