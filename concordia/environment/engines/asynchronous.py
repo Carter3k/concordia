@@ -97,11 +97,15 @@ class Asynchronous(engine_lib.Engine):
             options=tuple(entities_by_name.keys()),
         )
     )
-    next_entity_names = next_object_names_string.split(',')
+    next_entity_names = [
+        entity_name.strip()
+        for entity_name in next_object_names_string.split(',')
+        if entity_name.strip()
+    ]
     next_action_spec_string = game_master.act(
         action_spec=entity_lib.ActionSpec(
             call_to_action=self._call_to_next_action_spec.format(
-                name=self._call_to_next_action_spec),
+                name=', '.join(next_entity_names)),
             output_type=entity_lib.OutputType.NEXT_ACTION_SPEC,
             options=[action_type.name for action_type
                      in entity_lib.PLAYER_ACTION_TYPES],
